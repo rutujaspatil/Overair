@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+</head>
+
+<title></title>
+	<link rel="stylesheet" type="text/css" href="Style.css">
+	<script type="text/javascript" src="jquery-1.11.3.js"></script>
+	<script type="text/javascript" src="bootstrap.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+		var Weather="";
+		var Geo={};
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(success,error);
+		}
+		else{
+			alert("geolocation is not supported")
+		}
+		function error(){
+			alert("That's weird! We couldnt find you!");
+		}
+			function success(position){
+			Geo.lat=position.coords.latitude;
+			Geo.lng=position.coords.longitude;
+			// $("#d1").html(Geo.lat);w
+			// $("#d2").html(Geo.lng);
+
+			Weather="https://openweathermap.org/data/2.5/weather?lat="+Geo.lat+"&lon="+Geo.lng+"&appid=b6907d289e10d714a6e88b30761fae22";
+
+
+	// Weather="https://openweathermap.org/data/2.5/weather?lat=31.8002&lon=-80.34583&appid=b6907d289e10d714a6e88b30761fae22";
+
+				
+			$.ajax({
+			url : Weather,
+			type:"get",
+			dataType : "jsonp",
+			contentType:'application/javascript',
+			crossDomain: true,
+			success : function(data) {
+
+			var locat =data['name'];
+			$('#location').html(locat).hide().delay(1000).fadeIn(1200).fadeOut(1200);
+
+			var des = data.weather[0].description;
+			
+			$('#desc').html(des).hide().delay(4000).fadeIn(1200).fadeOut(1200);
+
+			var temp = data['main']['temp'];
+			$('#temperature').html(temp + "°C").hide().delay(8000).fadeIn(2200).fadeOut(2200);
+
+			var forecast = data.weather[0].main;
+			$('#f').html(forecast).hide();
+
+			var idno = data.weather[0].id;
+			$('#idnumber').html(idno);
+
+			// Color conditions
+			const conditions ={
+				Drizzle: '#0B718C',
+				Thunderstorm: '#3E4863',
+				Rain: '#47BC6E',
+				Snow: '#BECDD7',
+				Atmosphere: '#ACBAC3',
+				Clear: '#EAD25B',
+				Clouds: '#6888E1',
+				Haze: '#CED5D2',
+				Dust:'#CED5D2',
+				Mist:'#CED5D2',
+				Smoke: '#CED5D2',
+				Fog:'#CED5D2'
+			}
+
+			str={id:idno};
+
+
+			$.getJSON("SongsandVideos.php",str,function(data,status){
+					// console.log(data);
+
+					str="";
+					$.each(data,function(i,v){
+
+					str+="<source src="+v.Video+"></source>";
+					$("#videobg").html(str).hide().delay(10000).fadeIn(2200);
+						
+					var Songs=v.Songs;
+					var Songs_array=Songs.split(',');
+					str+="<div id="+"song_name"+"> </div>";
+					for(i=0;i<Songs_array.length;i++){
+					// alert(Songs_array[i]);
+					if(i==0){
+						str+="<audio controls data-song="+"5"+" class="+"songs"+" id="+i+" runat="+"server"+">";
+						// `str <audio  class=songs id= ${i} runat=server>`;
+						}
+						else{
+							str+="<audio data-song="+"5"+" runat="+"server"+" id="+i+" class="+"songs"+">";
+						}
+						str+="<source src="+Songs_array[i]+" id=src"+i+" ></source></audio>"
+						};
+
+			//temperature
+			var tempdiv=$("<div>");
+			tempdiv.addClass("tempdiv").html(temp + "°C");
+
+			//weather describtion
+			var descdiv=$("<div>");
+			descdiv.addClass("descdiv").html(des);
+
+			//colored patch on the left
+			var container=$("<div>");
+			container.addClass("parent").append(tempdiv,descdiv).hide().delay(10000).show(0);
+			container.css('background-color',conditions[forecast])
+
+			//div over the colored patch for hover effect
+			var box=$("<div>");
+			box.addClass("box");
+
+			var patchindex=$("<div>");
+			patchindex.addClass("patchindex").append(box,container);
+			$("body").append(patchindex);
+
+			//city/town name
+			var locationdiv=$("<div>"); //cityname
+			locationdiv.addClass("locationdiv").html(locat).hide().delay(10000).fadeIn(2200);
+			locationdiv.css('color',conditions[forecast])
+			$("body").append(locationdiv);
+
+			
+			$("body").append(str);
+
+			var list=document.getElementById('song_name'); //songname
+			var listcontainer=$("<div>");
+			listcontainer.append(list);
+			container.append(listcontainer);
+
+			var bar=document.getElementsByClassName('songs'); //audio
+			var divindex=$("<div>");
+			divindex.addClass("divindex").append(bar);
+			$("body").append(divindex);
+
+			// code to play next song once the current song is over
+			var audioArray=document.getElementsByClassName('songs');
+			audioArray[0].controls=true;
+			audioArray[0].play();
+			var songname=document.getElementById('src0').src;			
+			var songnameArray=songname.split('/');
+			$('#song_name').text(''+songnameArray[songnameArray.length-1]);
+			for(i=0;i<audioArray.length-1;++i)
+			{
+				audioArray[i].addEventListener('ended',function(e)
+				{
+					var currentSong=e.target;
+					var next=$(currentSong).nextAll('audio');
+					if(next.length){
+
+					$(next[0]).attr('controls',true); 
+						var idString='src'+i;
+						var songname=document.getElementById(idString).src;			
+						var songnameArray=songname.split('/');
+						$('#song_name').text(''+songnameArray[songnameArray.length-1]);
+						$(next[0]).trigger('play');
+
+							}
+						})
+
+					}
+			
+				})
+			})
+
+		}
+
+	})
+}
+
+
+
+})
+
+</script>
+
+<body>
+<div id="text-container">
+<div id="location"></div>
+<div id="desc"></div>
+<div id="temperature"></div>
+<div id="f"></div> 
+</div>
+
+<div class="video-container">
+<video id="videobg" autoplay loop muted></video>
+</div>
+
+<div id="circle">
+<div id="aboutus">
+<p id="title">OverAir</p>
+<div id="info">
+<p>Do people make different music-listening decisions based on weather? Yes!</p>
+<p></p>
+<p>OverAir uses the research on how weather affects mood and hence acoustic attributes of your music preferences informed by Spotify to create an experiential platform.</p> <p><a href="https://insights.spotify.com/es/2017/02/07/spotify-accuweather-music-and-weather/" target="_blank">Spotify Research Link</a></p>
+</p>
+<p></p><p></p>
+<p><strong style="color:darkblue;">You know that feeling when you’re cosy on your bed on winter nights but its too cold outside to actually step out and yet you want to feel the wind. OverAir relaxes you and takes you to the beautiful weather outside you. </strong></p>
+<p>This website has been my first big coding project and is just a demo of the idea above. Ideally there would be a much bigger database of songs/playlist as well as videos carefully inserted from the research. I also envision the use of live satellite and environmental videos projected from the user’s location. For this project I chose songs and videos based on the research and which were legal to use. Would like to thank SoudCloud artists and Videvo for their contribution.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

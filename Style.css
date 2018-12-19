@@ -1,0 +1,259 @@
+@import "https://fonts.googleapis.com/css?family=Rubik+Mono+One";
+@import "https://fonts.googleapis.com/css?family=Didact+Gothic";
+@import "https://fonts.googleapis.com/css?family=Lora";
+
+* {
+    box-sizing: border-box;
+}
+
+html,body {
+    margin:0;
+    padding:0;
+}
+
+/*Landing Page text*/
+#text-container{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 17px;
+      font-family: 'Rubik Mono One', sans-serif;
+}
+
+/*__________________________________Background Info_____________________________________*/
+
+/*Background Video*/
+.video-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%; 
+  z-index: -1;
+  overflow: hidden;
+  
+}
+.video-container video {
+  /* Make video to at least 100% wide and tall */
+  min-width: 100%; 
+  min-height: 100%; 
+  /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+  height:106%;
+  /*width: auto;*/
+  /* Center the video */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+/*Audio tag*/
+.songs{
+  position: absolute;
+  bottom: 3.5vw;
+  left: 4vw;
+  width: 21vw;
+}
+/*Div that contains the audio tag*/
+.divindex{
+  top: 100vh;
+  position: absolute;
+  z-index: 2;
+}
+/*City name*/
+.locationdiv{
+position: absolute;
+z-index: 2;
+left: 4vw;
+top: 4vh;
+font-size: 15px;
+font-family: 'Rubik Mono One', sans-serif;
+}
+
+/*__________________________________Info bar on the left_____________________________________*/
+
+.box{
+  display: block;
+  opacity: 0.3;
+  position: absolute;
+  width: 26vw;
+  height: 101vh;
+  top: -10px;
+  z-index: 5;
+  }
+
+.box:hover + .parent{
+  position: absolute;
+transform:translateX(-100%);
+}
+
+.parent{
+  position: absolute;
+  width: 28vw;
+  height: 101.5vh;
+  top: -10px;
+  transition: transform 1s ease-out 0s;
+  animation: 1s ease-out 0s 1 slideInFromLeft;
+  z-index: 4;
+  }
+
+/*  Animation when it appears for the first time*/
+ @keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.patchindex{
+  position: absolute;
+  z-index: 10;
+}
+
+/*Song name*/
+#song_name{
+position: absolute;
+z-index: 4;
+left: 3vw;
+bottom: 180px;
+letter-spacing: 0.03vw;
+font-size: 1vw;
+font-family: 'Lora', serif;
+}
+
+/*Weather describtion*/
+.descdiv{
+    position: absolute;
+    top: 36vh;
+    left: 3vw;
+    letter-spacing: 0.03vw;
+    font-size: 1.8vw;
+    font-family: 'Lora', serif;
+}
+/*Temp*/
+.tempdiv{
+  position: absolute;
+  font-size: 6.5vw;
+  top: 20vh;
+  left: 3vw;
+  color: #F1F3F4;
+  letter-spacing: 0.2vw;
+  font-family: 'Didact Gothic', sans-serif;
+}
+
+/*__________________________________Circle_____________________________________*/
+
+#circle{
+  position: absolute;
+  right: 4.5vw;
+  bottom: 3.5vw;
+  height: 4vw;
+  width: 4vw;
+  border-radius: 50%;
+  transition: 0.3s;
+
+  background: linear-gradient(91deg, #b4d5ec, #47b1bc, #c1daea, #cbf7ca, #ead25b, #f0b147, #e8ebf5, #0b718c);
+  background-size: 500% 500%;
+
+  webkit-animation: AnimationName 25s ease infinite;
+  -moz-animation: AnimationName 25s ease infinite;
+  -o-animation: AnimationName 25s ease infinite;
+  animation: AnimationName 25s ease infinite;   
+}
+
+#circle:hover {
+  border-radius:0%;
+  width: 64vw;
+  height: 87vh;
+  z-index: 11;
+  background: linear-gradient(91deg, #b4d5ec, #47b1bc, #c1daea, #cbf7ca, #ead25b, #f0b147, #e8ebf5, #0b718c);
+  background-size: 500% 500%;
+
+  webkit-animation: AnimationName 25s ease infinite;
+  -moz-animation: AnimationName 25s ease infinite;
+  -o-animation: AnimationName 25s ease infinite;
+  animation: AnimationName 25s ease infinite;
+  display: inline-block;
+  }
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:78% 0%}
+    50%{background-position:23% 100%}
+    100%{background-position:78% 0%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:78% 0%}
+    50%{background-position:23% 100%}
+    100%{background-position:78% 0%}
+}
+@-o-keyframes AnimationName {
+    0%{background-position:78% 0%}
+    50%{background-position:23% 100%}
+    100%{background-position:78% 0%}
+}
+@keyframes AnimationName { 
+    0%{background-position:78% 0%}
+    50%{background-position:23% 100%}
+    100%{background-position:78% 0%}
+}
+
+#aboutus {
+height: 0;
+opacity: 0;
+visibility: collapse;
+margin: 5px;
+position: fixed;
+}
+
+/*Body text and background on hover*/
+#circle:hover #aboutus{
+height: 5vh;
+opacity: 1;
+visibility: visible;
+transition: all .2s ease;
+font-size: 0.9vw;
+line-height: 2.67vh;
+color: #607D8B;
+margin-inline-end: 60vh;
+margin-inline-start: 9vh;
+font-family: 'Didact Gothic', sans-serif;
+}
+
+/*OverAir text*/
+#title{
+  margin-top: 12vh;
+  font-size: 4vw;
+  color: white;
+  font-family: 'Rubik Mono One', sans-serif;
+}
+
+/*setting boundary box for the text*/
+#info{
+  width: 20vh;
+  width: 22vw;
+  height: 60vh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
