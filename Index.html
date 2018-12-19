@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+<meta charset="utf-8">
 </head>
-
 <title></title>
 	<link rel="stylesheet" type="text/css" href="Style.css">
 	<script type="text/javascript" src="jquery-1.11.3.js"></script>
@@ -29,10 +28,6 @@
 			// $("#d2").html(Geo.lng);
 
 			Weather="https://openweathermap.org/data/2.5/weather?lat="+Geo.lat+"&lon="+Geo.lng+"&appid=b6907d289e10d714a6e88b30761fae22";
-
-
-	// Weather="https://openweathermap.org/data/2.5/weather?lat=31.8002&lon=-80.34583&appid=b6907d289e10d714a6e88b30761fae22";
-
 				
 			$.ajax({
 			url : Weather,
@@ -75,7 +70,6 @@
 			}
 
 			str={id:idno};
-
 
 			$.getJSON("SongsandVideos.php",str,function(data,status){
 					// console.log(data);
@@ -128,7 +122,6 @@
 			locationdiv.css('color',conditions[forecast])
 			$("body").append(locationdiv);
 
-			
 			$("body").append(str);
 
 			var list=document.getElementById('song_name'); //songname
@@ -175,8 +168,6 @@
 
 	})
 }
-
-
 
 })
 
